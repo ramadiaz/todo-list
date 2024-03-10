@@ -17,8 +17,10 @@ export default function RootLayout({ children }) {
       <Provider>
         <body className={inter.className}>
           <Providers>
-            <NavbarComponent />
-            {children}
+            <div className="bg-orange-100 text-neutral-800">
+              <NavbarComponent />
+              {children}
+            </div>
           </Providers>
         </body>
       </Provider>

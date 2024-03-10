@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.0.12",
     "@next-auth/prisma-adapter": "^0.4.4-canary.81",
     "@nextui-org/react": "^2.2.10",
+    "@phosphor-icons/react": "^2.0.15",
     "@prisma/client": "^5.10.2",
     "bcrypt": "^5.1.1",
     "framer-motion": "^11.0.8",

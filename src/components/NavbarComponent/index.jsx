@@ -1,30 +1,42 @@
-'use client'
+"use client";
 
 import React from "react";
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button} from "@nextui-org/react";
-import {AcmeLogo} from "./AcmeLogo.jsx";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  Link,
+  Button,
+} from "@nextui-org/react";
+import { Checks } from "@phosphor-icons/react";
 
 export default function NavbarComponent() {
   return (
     <Navbar shouldHideOnScroll>
       <NavbarBrand>
-        <AcmeLogo />
-        <p className="font-bold text-inherit">ACME</p>
+        <Checks size={32} color="#27272a" weight="bold" />
+        <h1 className="ml-2 font-bold text-xl">To-Do</h1>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
         <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
+          <Link className="text-neutral-800" href="#">
+            Dashboard
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
+          <Link href="#" className="text-neutral-800" aria-current="page">
+            To-Do
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link className="text-neutral-800" href="#">
+            Note
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link className="text-neutral-800" href="#">
+            Blogs
           </Link>
         </NavbarItem>
       </NavbarContent>
