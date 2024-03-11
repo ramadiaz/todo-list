@@ -56,8 +56,8 @@ export default function NavbarComponent() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} color="primary" href="/register" variant="flat">
-            Sign Up
+          <Button as={Link} color="primary" href="/login" variant="flat">
+            Log In
           </Button>
         </NavbarItem>
       </NavbarContent>

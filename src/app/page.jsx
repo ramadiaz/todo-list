@@ -1,9 +1,11 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import TextTransition, { presets } from "react-text-transition";
 
 const Page = () => {
+  const session = useSession()
   const [index, setIndex] = useState(0);
   const date = new Date();
   const hours = date.getHours();
@@ -22,21 +24,21 @@ const Page = () => {
     if (hours < 12) {
       return (
         <h1 className="text-5xl font-bold flex flex-row items-center justify-center">
-          Good Morning
+          Good Morning {session?.data?.user?.name}!
           <span className="text-8xl">⛅</span>
         </h1>
       );
     } else if (hours < 18) {
       return (
         <h1 className="text-5xl font-bold flex flex-row items-center justify-center">
-          Good Afternoon
+          Good Afternoon {session?.data?.user?.name}!
           <span className="text-8xl">🌞</span>
         </h1>
       );
     } else {
       return (
         <h1 className="text-5xl font-bold flex flex-row items-center justify-center">
-          Good Evening
+          Good Evening {session?.data?.user?.name}!
           <span className="text-8xl">🌙</span>
         </h1>
       );
