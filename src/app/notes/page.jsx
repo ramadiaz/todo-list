@@ -1,7 +1,6 @@
 "use client";
 
 import Loading from "@/app/loading";
-import NoteModal from "@/components/utilities/NoteModal";
 import NotePreview from "@/components/utilities/NotePreview";
 import { Button } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
