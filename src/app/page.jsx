@@ -3,6 +3,7 @@
 import { Button } from "@nextui-org/react";
 import { Checks, Compass, Note } from "@phosphor-icons/react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import TextTransition, { presets } from "react-text-transition";
 
@@ -67,19 +68,33 @@ const Page = () => {
         </div>
       </div>
       <div className="w-3/4 mx-auto flex flex-col gap-4">
-        <Button variant="light" className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start">
-          <Checks size={32} color="#27272a" weight="bold" />
-          To-Do List
-        </Button>
-        <Button variant="light" className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start">
-        <Note size={32} color="#27272a" />
-          Notes
-        </Button>
-        <Button variant="light" className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start">
-        <Compass size={32} color="#27272a" />
-          Stories
-        </Button>
-        
+        <Link href={`/todos`}>
+          <Button
+            variant="light"
+            className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start"
+          >
+            <Checks size={32} color="#27272a" weight="bold" />
+            To-Do List
+          </Button>
+        </Link>
+        <Link href={`/notes`}>
+          <Button
+            variant="light"
+            className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start"
+          >
+            <Note size={32} color="#27272a" />
+            Notes
+          </Button>
+        </Link>
+        <Link href={`/stories`}>
+          <Button
+            variant="light"
+            className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start"
+          >
+            <Compass size={32} color="#27272a" />
+            Stories
+          </Button>
+        </Link>
       </div>
     </>
   );
