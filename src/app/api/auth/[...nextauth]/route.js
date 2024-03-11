@@ -20,46 +20,51 @@ export const authOptions = {
 
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email
-          }
-        })
+            email: credentials.email,
+          },
+        });
 
-        if(!user) {
+        if (!user) {
           return null;
         }
 
-        const passwordsMatch = await bcrypt.compare(credentials.password, user.hashedPassword)
+        const passwordsMatch = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword
+        );
 
-        if(!passwordsMatch) {
-          throw new Error("Incorrect email or password")
+        if (!passwordsMatch) {
+          throw new Error("Incorrect email or password");
         }
-        
+
         return user;
       },
     }),
   ],
   callbacks: {
-    async jwt({token, user, session}) {
-      if(user) {
+    async jwt({ token, user, session }) {
+      if (user) {
         return {
           ...token,
-          id: user.id,
-        }
+          user: {
+            id: user.id,
+          },
+        };
       }
-      return token
+      return token;
     },
-    async session ({session, token, user}) {
+    async session({ session, token, user }) {
       return {
         ...session,
         user: {
           ...session.user,
-          id: token.id
-        }
-      }
-    }
+          id: token.id,
+        },
+      };
+    },
   },
   pages: {
-    signIn: '/login',
+    signIn: "/login",
   },
   session: {
     strategy: "jwt",
