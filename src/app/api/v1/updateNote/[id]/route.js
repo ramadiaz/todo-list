@@ -5,7 +5,6 @@ export const revalidate = 1;
 export async function POST(request, { params: { id } }) {
   const body = await request.json();
   const { title, content } = body.data;
-  console.log({ body });
 
   try {
     const noteUpdate = await prisma.note.update({

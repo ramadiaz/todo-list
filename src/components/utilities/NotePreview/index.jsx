@@ -11,17 +11,19 @@ import {
   Textarea,
   Input,
 } from "@nextui-org/react";
+import { CloudCheck } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 
 const NotePreview = ({ id, title, content }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const previewContent =
-    content.length > 140 ? content.substring(0, 140) + "..." : content;
   const [titleEdit, setTitleEdit] = useState(title);
   const [contentEdit, setContentEdit] = useState(content);
+  const [isSaving, setIsSaving] = useState(false);
 
+  const previewContent =
+    content.length > 140 ? content.substring(0, 140) + "..." : content;
   const previewTitle =
-    title.length > 23 ? title.substring(0, 23) + "..." : title;
+    title.length > 21 ? title.substring(0, 21) + "..." : title;
 
   const fetchData = async () => {
     try {
@@ -34,29 +36,39 @@ const NotePreview = ({ id, title, content }) => {
     }
   };
 
-  const handlUpdateContent = async() => {
-    try{
+  const handlUpdateContent = async () => {
+    setIsSaving(true);
+    try {
       await fetch(`/api/v1/updateNote/${id}`, {
-        method: 'POST',
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           data: {
             title: titleEdit,
-            content: contentEdit
-          }
-        })
+            content: contentEdit,
+          },
+        }),
       })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
+        .catch((err) => console.error(err));
+    } catch (err) {
+      console.error(err);
+    }
+    setIsSaving(false);
+  };
+
+  const handleDelete = async () => {
+    try{
+      await fetch(`/api/v1/deleteNote/${id}`, {
+        method: 'DELETE'
+      }).catch((err) => console.error(err))
     }catch(err){
       console.error(err)
     }
   }
 
-  useEffect(()=> {
-    handlUpdateContent()
-  }, [contentEdit])
+  useEffect(() => {
+    handlUpdateContent();
+  }, [contentEdit, titleEdit]);
 
   useEffect(() => {
     fetchData();
@@ -66,7 +78,7 @@ const NotePreview = ({ id, title, content }) => {
     <>
       <button
         onClick={onOpen}
-        className="text-left rounded-xl bg-orange-200 hover:brightness-110 transition-all duration-400"
+        className="text-left rounded-xl bg-orange-200 hover:brightness-110 transition-all duration-400 focus:ring-0 focus:ring-offset-0"
       >
         <div className="relative w-52 h-52 ">
           <h3 className="p-2 break-words">{previewContent}</h3>
@@ -79,6 +91,15 @@ const NotePreview = ({ id, title, content }) => {
         <ModalContent>
           {(onClose) => (
             <>
+              <div className="h-8 px-4 pt-4 text-sm flex justify-start  items-center">
+                {isSaving ? <div className="smLoader ml-10"></div> : 
+                (
+                <>
+                <h2 className="mr-2">Saved</h2>
+                <CloudCheck size={18} color="#27272a" weight="bold"/>
+                </>
+                )}
+              </div>
               <ModalHeader className="flex flex-col gap-1 break-words">
                 <Input
                   type="text"
@@ -98,11 +119,11 @@ const NotePreview = ({ id, title, content }) => {
                 />
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+                <Button color="danger" variant="light" onClick={() => handleDelete()}>
+                  Delete
                 </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
+                <Button className="bg-neutral-800 text-slate-200" onPress={onClose}>
+                  Close
                 </Button>
               </ModalFooter>
             </>
