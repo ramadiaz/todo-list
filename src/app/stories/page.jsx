@@ -32,7 +32,6 @@ const Page = () => {
       const response = await fetch("/api/v1/getStories");
       if (response.ok) {
         const data = await response.json();
-        console.log({ data });
         setStories(data.body);
       }
     } catch (err) {
@@ -55,7 +54,6 @@ const Page = () => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
       .catch((err) => console.error(err));
     setData({
       title: "",
