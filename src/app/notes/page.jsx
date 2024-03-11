@@ -39,7 +39,7 @@ const Page = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/api/v1/getNotes/${session.data?.user?.id}`
+          `/api/v1/getNotes/${session.data?.user?.id}`, { next: { revalidate: 3 } }
         );
         await console.log(session.data?.user?.id);
 
