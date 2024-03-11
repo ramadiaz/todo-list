@@ -15,7 +15,6 @@ import Link from "next/link";
 
 export default function NavbarComponent() {
   const session = useSession();
-  console.log({ session });
   const pathName = usePathname();
 
   return (

@@ -69,6 +69,7 @@ const Page = () => {
             {notes?.body?.map((note, index) => {
               return (
                 <NotePreview
+                  id={note.id}
                   title={note.title}
                   content={note.content}
                   key={index}
