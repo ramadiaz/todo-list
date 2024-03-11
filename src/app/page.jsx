@@ -70,8 +70,7 @@ const Page = () => {
       <div className="w-3/4 mx-auto flex flex-col gap-4">
         <Link href={`/todos`}>
           <Button
-            variant="light"
-            className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start"
+            className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start hover:bg-orange-200 bg-transparent"
           >
             <Checks size={32} color="#27272a" weight="bold" />
             To-Do List
@@ -79,8 +78,7 @@ const Page = () => {
         </Link>
         <Link href={`/notes`}>
           <Button
-            variant="light"
-            className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start"
+            className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start hover:bg-orange-200 bg-transparent"
           >
             <Note size={32} color="#27272a" />
             Notes
@@ -88,8 +86,7 @@ const Page = () => {
         </Link>
         <Link href={`/stories`}>
           <Button
-            variant="light"
-            className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start"
+            className="border-2 border-neutral-800 w-full h-16 flex flex-row justify-start hover:bg-orange-200 bg-transparent"
           >
             <Compass size={32} color="#27272a" />
             Stories

@@ -6,14 +6,15 @@ export async function POST(request) {
 
   const body = await request.json();
 
-  const { userId, title, content } = body.data;
+  const { userId, title, content, author } = body.data;
   console.log({ body });
 
   const createNotes = await prisma.Story.create({ 
     data: {
         userId,
         title,
-        content
+        content,
+        author
     } 
 });
 

@@ -43,6 +43,7 @@ const Page = () => {
       .catch((err) => console.error(err));
     fetchData();
   };
+  
   useEffect(() => {
     fetchData();
   }, [session.data]);
@@ -54,7 +55,7 @@ const Page = () => {
       ) : (
         <div className="flex flex-col justify-center">
           <div className="my-8 flex justify-center">
-            <Button onClick={() => handleAddNote()} radius="sm">
+            <Button onClick={() => handleAddNote()} radius="sm" className="bg-orange-200">
               + Add new note
             </Button>
           </div>

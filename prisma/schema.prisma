@@ -36,6 +36,7 @@ model Note {
 model Story {
   id        String   @id @default(cuid())
   userId    String
+  author    String
   title     String?
   content   String?
   createdAt DateTime @default(now())

@@ -11,9 +11,10 @@ import {
   Input,
   Textarea,
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 const Page = () => {
   const session = useSession();
@@ -23,34 +24,56 @@ const Page = () => {
     title: "",
     content: "",
   });
+  const [stories, setStories] = useState([]);
+
+  const fetchData = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch("/api/v1/getStories");
+      if (response.ok) {
+        const data = await response.json();
+        console.log({ data });
+        setStories(data.body);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setIsLoading(false)
+  };
 
   const handleUpload = async () => {
-      await fetch("/api/v1/pushStory", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          data: {
-            title: data.title,
-            content: data.content,
-            userId: session.data.user.id,
-          },
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.error(err));
-        setData({
-          title: '',
-          content: ''
-        })
+    await fetch("/api/v1/pushStory", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        data: {
+          title: data.title,
+          content: data.content,
+          userId: session.data.user.id,
+          author: session.data.user.name,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+    setData({
+      title: "",
+      content: "",
+    });
+    fetchData();
   };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="w-11/12">
+        <div className="w-3/4 mx-auto">
           <div className="flex justify-end py-10 items-center">
             <Button
               onPress={onOpen}
@@ -69,12 +92,16 @@ const Page = () => {
                 {(onClose) => (
                   <>
                     <ModalHeader className="flex flex-col gap-1">
-                      <Input type="text" variant="underlined" label="Title" 
+                      <Input
+                        type="text"
+                        variant="underlined"
+                        label="Title"
                         value={data.title}
                         onChange={(e) => {
                           setData({
-                            ...data, title: e.target.value
-                          })
+                            ...data,
+                            title: e.target.value,
+                          });
                         }}
                       />
                     </ModalHeader>
@@ -106,7 +133,21 @@ const Page = () => {
               </ModalContent>
             </Modal>
           </div>
-          <div></div>
+          <div className="flex flex-col gap-4">
+            {stories.map((story, index) => {
+              return (
+                <Link
+                  href={`/story/${story.id}`}
+                  key={index}
+                  className="border-2 border-neutral-800/80 rounded-xl px-2 py-4 hover:bg-orange-200 transition-all duration-400"
+                >
+                  <h1 className="font-semibold text-xl">{story.title}</h1>
+                  <h3 className="text-sm">Story by {story.author}</h3>
+                  <h3 className="mt-4">{story.content.substring(0, 240) + "..."}</h3>
+                </Link>
+              );
+            })}
+          </div>
         </div>
       )}
     </>
