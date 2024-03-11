@@ -34,26 +34,25 @@ const Page = () => {
     setData({ title: "", content: "" });
   };
 
-  useEffect(() => {
+  
+  const fetchData = async () => {
     setIsLoading(true);
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `/api/v1/getNotes/${session.data?.user?.id}`, { next: { revalidate: 3 } }
-        );
-        await console.log(session.data?.user?.id);
+    try {
+      const response = await fetch(
+        `/api/v1/getNotes/${session.data?.user?.id}`, { next: { revalidate: 3 } }
+      );
+      await console.log(session.data?.user?.id);
 
-        const data = await response.json();
-        setNotes(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchData();
+      const data = await response.json();
+      setNotes(data);
+    } catch (err) {
+      console.error(err);
+    }
     setIsLoading(false);
+  };
 
-    console.log({ notes });
+  useEffect(() => {
+    fetchData();
   }, [session.data]);
 
   return (

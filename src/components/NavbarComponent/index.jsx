@@ -39,9 +39,9 @@ export default function NavbarComponent() {
             Notes
           </Link>
         </NavbarItem>
-        <NavbarItem isActive={pathName.endsWith("/blogs")}>
-          <Link className="text-neutral-800 hover:opacity-70 transition-all duration-400" href="/blogs">
-            Blogs
+        <NavbarItem isActive={pathName.endsWith("/stories")}>
+          <Link className="text-neutral-800 hover:opacity-70 transition-all duration-400" href="/stories">
+            Stories
           </Link>
         </NavbarItem>
       </NavbarContent>
