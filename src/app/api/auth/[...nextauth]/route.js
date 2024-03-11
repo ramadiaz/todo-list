@@ -46,9 +46,7 @@ export const authOptions = {
       if (user) {
         return {
           ...token,
-          user: {
             id: user.id,
-          },
         };
       }
       return token;

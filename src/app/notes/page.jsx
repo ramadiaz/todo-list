@@ -39,6 +39,7 @@ const Page = () => {
         const response = await fetch(
           `/api/v1/getNotes/${session.data.user.id}`
         );
+        await console.log(session.data.user.id)
         const data = await response.json();
         setNotes(data);
       } catch (err) {
