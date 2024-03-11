@@ -44,7 +44,7 @@ const Page = () => {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(() => setIndex((index) => index + 1), 5000);
+    const intervalId = setInterval(() => setIndex((index) => index + 1), 4000);
     return () => clearTimeout(intervalId);
   }, []);
 
@@ -63,7 +63,7 @@ const Page = () => {
         </div>
       </div>
       <div>
-        
+
       </div>
     </>
   );

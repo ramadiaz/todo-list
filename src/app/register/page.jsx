@@ -9,8 +9,6 @@ const Page = () => {
     name: "",
     email: "",
     password: "",
-    address: "",
-    contact: "",
   });
 
   const registerUser = async (e) => {
@@ -29,12 +27,9 @@ const Page = () => {
 
   return (
     <div
-      className="h-screen flex justify-center items-center gap-x-7 mx-6"
+      className="mt-20 flex justify-center items-center gap-x-7 mx-6"
       id="loginPage"
     >
-      <div className="relative w-[600px] grid place-items-center">
-        <img src="/loginsrc/sofa.gif" className="absolute rounded-2xl" />
-      </div>
 
       <div className="flex flex-col gap-y-7 w-[300px]">
         <h2 className="text-2xl font-semibold">Register</h2>
@@ -59,28 +54,6 @@ const Page = () => {
             value={data.email}
             onChange={(e) => {
               setData({ ...data, email: e.target.value });
-            }}
-          />
-
-          <input
-            type="text"
-            className="text-sm p-2 rounded-2xl outline-none tracking-widest"
-            name="contact"
-            placeholder="Contact"
-            value={data.contact}
-            onChange={(e) => {
-              setData({ ...data, contact: e.target.value });
-            }}
-          />
-
-          <input
-            type="text"
-            className="text-sm p-2 rounded-2xl outline-none tracking-widest"
-            name="address"
-            placeholder="Address"
-            value={data.address}
-            onChange={(e) => {
-              setData({ ...data, address: e.target.value });
             }}
           />
 

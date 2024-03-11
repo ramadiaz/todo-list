@@ -4,10 +4,10 @@ import {NextResponse} from "next/server"
 
 export async function POST(request) {
     const body = await request.json()
-    const {name, email, password, address, contact} = body.data;
+    const {name, email, password} = body.data;
     console.log(body)
 
-    if(!name || !email || !password || !address || !contact) {
+    if(!name || !email || !password) {
         return new NextResponse("Missing value", {status: 400})
     }
 
@@ -27,10 +27,7 @@ export async function POST(request) {
         data: {
             name,
             email,
-            address,
-            contact,
             hashedPassword,
-            role: "cashier",
         }
     })
 
