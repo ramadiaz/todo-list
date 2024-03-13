@@ -14,7 +14,7 @@ import {
 import { CloudCheck } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 
-const NotePreview = ({ id, title, content }) => {
+const NotePreview = ({ id, title, content, onDelete }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [titleEdit, setTitleEdit] = useState(title);
   const [contentEdit, setContentEdit] = useState(content);
@@ -60,7 +60,10 @@ const NotePreview = ({ id, title, content }) => {
     try{
       await fetch(`/api/v1/deleteNote/${id}`, {
         method: 'DELETE'
-      }).catch((err) => console.error(err))
+      }).then((res) => {
+        onDelete(true)
+      })
+      .catch((err) => console.error(err))
     }catch(err){
       console.error(err)
     }

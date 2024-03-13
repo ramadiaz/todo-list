@@ -4,7 +4,7 @@ import Loading from "@/app/loading";
 import NotePreview from "@/components/utilities/NotePreview";
 import { Button } from "@nextui-org/react";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const Page = () => {
   const session = useSession();
@@ -56,6 +56,10 @@ const Page = () => {
       .catch((err) => console.error(err));
     fetchDataAfter();
   };
+
+  const deleteCallback = useCallback((data) => {
+    fetchDataAfter()
+  })
   
   useEffect(() => {
     fetchData();
@@ -80,6 +84,7 @@ const Page = () => {
                   title={note.title}
                   content={note.content}
                   key={index}
+                  onDelete={deleteCallback}
                 />
               );
             })}
