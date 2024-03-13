@@ -10,6 +10,11 @@ export async function GET(request, { params: {id} }) {
       where: {
         userId: id,
       },
+      orderBy: [
+        {
+          createdAt: "desc",
+        },
+      ],
     });
   } catch (err) {
     console.log(err);

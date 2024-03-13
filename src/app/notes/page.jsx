@@ -12,7 +12,7 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
       const response = await fetch(
         `/api/v1/getNotes/${session.data?.user?.id}`,
@@ -23,7 +23,20 @@ const Page = () => {
     } catch (err) {
       console.error(err);
     }
-    setIsLoading(false);
+    setIsLoading(false)
+  };
+
+  const fetchDataAfter = async () => {
+    try {
+      const response = await fetch(
+        `/api/v1/getNotes/${session.data?.user?.id}`,
+        { next: { revalidate: 3 } }
+      );
+      const data = await response.json();
+      setNotes(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleAddNote = async () => {
@@ -41,7 +54,7 @@ const Page = () => {
       .then((res) => res.json())
       .then((data) => console.log(data))
       .catch((err) => console.error(err));
-    fetchData();
+    fetchDataAfter();
   };
   
   useEffect(() => {

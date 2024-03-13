@@ -2,10 +2,14 @@ import prisma from "@/app/libs/prisma";
 
 export const revalidate = 1;
 
-export async function GET(request) {
-  let stories;
+export async function GET(request, { params: {id} }) {
+
+  let todos;
   try {
-    stories = await prisma.story.findMany({
+    todos = await prisma.todo.findMany({
+      where: {
+        userId: id,
+      },
       orderBy: [
         {
           createdAt: "desc",
@@ -16,5 +20,5 @@ export async function GET(request) {
     console.log(err);
   }
 
-  return Response.json({ status: 200, body: stories });
+  return Response.json({ status: 200, body: todos });
 }
