@@ -3,12 +3,12 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
-import { Button } from "@nextui-org/react";
+import { Button, Checkbox } from "@nextui-org/react";
 
 const Page = () => {
   const session = useSession();
   const [isLoading, setIsLoading] = useState(true);
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState([]);
 
   const fetchData = async () => {
     setIsLoading(true);
@@ -18,7 +18,8 @@ const Page = () => {
         { next: { revalidate: 3 } }
       );
       const data = await response.json();
-      setTodos(data.body)
+      setTodos(data.body);
+      console.log({ data });
     } catch (err) {
       console.error(err);
     }
@@ -35,6 +36,22 @@ const Page = () => {
           userId: session.data.user.id,
         },
       }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+    fetchData();
+  };
+
+  const handleToggleComplete = async (todoId) => {
+    const updatedTodo = {
+      ...todos.find((todo) => todo.id === todoId),
+      completed: !todos.find((todo) => todo.id === todoId).completed,
+    };
+    await fetch(`/api/v1/updateTodo/${todoId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedTodo),
     })
       .then((res) => res.json())
       .then((data) => console.log(data))
@@ -62,11 +79,17 @@ const Page = () => {
             </Button>
           </div>
           <div className="w-[800px] mx-auto flex flex-col gap-8">
-            {todos.map((todo) => {
+            {todos.map((todo, index) => {
               return (
-                
-                <h1>{todo.id}</h1>
-              )
+                <Checkbox
+                defaultSelected={todo.completed}
+                  lineThrough
+                  key={index}
+                  onChange={() => handleToggleComplete(todo.id)}
+                >
+                  {todo.title}
+                </Checkbox>
+              );
             })}
           </div>
         </div>
