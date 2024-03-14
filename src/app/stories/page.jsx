@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Page = () => {
   const session = useSession();
@@ -65,6 +67,10 @@ const Page = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    AOS.init({ duration: 1200 });
+  });
 
   return (
     <>
@@ -137,7 +143,7 @@ const Page = () => {
                 <Link
                   href={`/story/${story.id}`}
                   key={index}
-                  className="border-2 border-neutral-800/80 rounded-xl px-2 py-4 hover:bg-orange-200 transition-all duration-400"
+                  className="border-2 border-neutral-800/80 rounded-xl px-2 py-4 hover:bg-orange-200 transition-all duration-400" data-aos="fade-up"
                 >
                   <h1 className="font-semibold text-xl">{story.title}</h1>
                   <h3 className="text-sm">Story by {story.author}</h3>

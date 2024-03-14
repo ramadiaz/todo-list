@@ -13,6 +13,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import TextTransition, { presets } from "react-text-transition";
 import Loading from "./loading";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const Page = () => {
   const session = useSession();
@@ -47,24 +49,37 @@ const Page = () => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    AOS.init({ duration: 1200 });
+  });
+
   const handleGreeting = () => {
     if (hours < 12) {
       return (
-        <h1 className="text-5xl font-bold flex flex-row items-center justify-center">
+        <h1
+          className="text-5xl font-bold flex flex-row items-center justify-center"
+          data-aos="fade-up"
+        >
           Good Morning {session?.data?.user?.name}!
           <span className="text-8xl">⛅</span>
         </h1>
       );
     } else if (hours < 18) {
       return (
-        <h1 className="text-5xl font-bold flex flex-row items-center justify-center">
+        <h1
+          className="text-5xl font-bold flex flex-row items-center justify-center"
+          data-aos="fade-up"
+        >
           Good Afternoon {session?.data?.user?.name}!
           <span className="text-8xl">🌞</span>
         </h1>
       );
     } else {
       return (
-        <h1 className="text-5xl font-bold flex flex-row items-center justify-center">
+        <h1
+          className="text-5xl font-bold flex flex-row items-center justify-center"
+          data-aos="fade-up"
+        >
           Good Evening {session?.data?.user?.name}!
           <span className="text-8xl">🌙</span>
         </h1>
@@ -144,6 +159,7 @@ const Page = () => {
             <Link
               href={`/stories`}
               className="flex flex-row justify-center items-center gap-2 mt-8 hover:opacity-80 transition-all duration-400"
+              data-aos="fade-right"
             >
               <h2 className="text-xl">Find more stories</h2>
               <ArrowUUpLeft size={32} color="#27272a" weight="bold" />
