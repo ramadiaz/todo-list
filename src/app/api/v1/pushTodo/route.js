@@ -13,6 +13,7 @@ export async function POST(request) {
     data: {
         userId,
         title,
+        completed: false
     } 
 });
 

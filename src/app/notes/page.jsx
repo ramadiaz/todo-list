@@ -12,7 +12,7 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
-    setIsLoading(true)
+    // setIsLoading(true)
     try {
       const response = await fetch(
         `/api/v1/getNotes/${session.data?.user?.id}`,
@@ -24,19 +24,6 @@ const Page = () => {
       console.error(err);
     }
     setIsLoading(false)
-  };
-
-  const fetchDataAfter = async () => {
-    try {
-      const response = await fetch(
-        `/api/v1/getNotes/${session.data?.user?.id}`,
-        { next: { revalidate: 3 } }
-      );
-      const data = await response.json();
-      setNotes(data);
-    } catch (err) {
-      console.error(err);
-    }
   };
 
   const handleAddNote = async () => {
@@ -54,11 +41,13 @@ const Page = () => {
       .then((res) => res.json())
       .then((data) => console.log(data))
       .catch((err) => console.error(err));
-    fetchDataAfter();
+      setIsLoading(false)
+      fetchData()
   };
 
   const deleteCallback = useCallback((data) => {
-    fetchDataAfter()
+    setIsLoading(false)
+    fetchData()
   })
   
   useEffect(() => {

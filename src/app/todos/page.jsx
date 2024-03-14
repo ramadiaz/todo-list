@@ -4,14 +4,15 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import { Button, Checkbox } from "@nextui-org/react";
+import { Trash } from "@phosphor-icons/react";
 
 const Page = () => {
   const session = useSession();
   const [isLoading, setIsLoading] = useState(true);
   const [todos, setTodos] = useState([]);
+  const [userId, setUserId] = useState("");
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
       const response = await fetch(
         `/api/v1/getTodos/${session.data?.user?.id}`,
@@ -33,9 +34,19 @@ const Page = () => {
       body: JSON.stringify({
         data: {
           title: "New Task",
-          userId: session.data.user.id,
+          userId: userId,
         },
       }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+    fetchData();
+  };
+
+  const handleDelete = async ( id ) => {
+    await fetch(`/api/v1/deleteTodos/${id}`, {
+      method: "DELETE",
     })
       .then((res) => res.json())
       .then((data) => console.log(data))
@@ -60,6 +71,7 @@ const Page = () => {
   };
 
   useEffect(() => {
+    setUserId(session.data?.user.id);
     fetchData();
   }, [session.data]);
 
@@ -81,16 +93,30 @@ const Page = () => {
           <div className="w-[800px] mx-auto flex flex-col gap-8">
             {todos.map((todo, index) => {
               return (
-                <Checkbox
-                defaultSelected={todo.completed}
-                  lineThrough
-                  key={index}
-                  onChange={() => handleToggleComplete(todo.id)}
-                >
-                  {todo.title}
-                </Checkbox>
+                <>
+                  <Checkbox
+                    defaultSelected={todo.completed}
+                    lineThrough
+                    key={index}
+                    onChange={() => handleToggleComplete(todo.id)}
+                  >
+                    {todo.title}
+                  </Checkbox>
+                  <button onClick={() => handleDelete(todo.id)}>X</button>
+                </>
               );
             })}
+          </div>
+          <div className="my-8 flex justify-center">
+            <Button
+              onClick={() => handleDelete()}
+              radius="sm"
+              color="danger"
+              variant="bordered"
+              startContent={<Trash size={32} color="#ef4444" />}
+            >
+              Delete all done tasks
+            </Button>
           </div>
         </div>
       )}
